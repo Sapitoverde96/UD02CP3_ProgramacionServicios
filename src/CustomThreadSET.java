@@ -13,9 +13,15 @@ public class CustomThreadSET implements Runnable {
     public void run() {
         final int MIN = 0;
         final int MAX = 100;
-        for (int iteration = MIN; iteration < MAX; iteration++) {
-            this.sharedVar.setValue(iteration);
-            System.out.printf("SET: %d\n", this.sharedVar.getValue());
+        try {
+            for (int iteration = MIN; iteration < MAX; iteration++) {
+                synchronized (this.sharedVar) {
+                    this.sharedVar.setValue(iteration);
+                    System.out.printf("SET: %d\n", iteration);
+                }
+            }
+        } catch (InterruptedException exceptionMessage) {
+            Thread.currentThread().interrupt();
         }
     }
 }

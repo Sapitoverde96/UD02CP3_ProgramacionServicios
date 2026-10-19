@@ -13,8 +13,14 @@ public class CustomThreadGET implements Runnable {
     public void run() {
         final int MIN = 0;
         final int MAX = 100;
-        for (int iteration = MIN; iteration < MAX; iteration++) {
-            System.out.printf("GET: %d\n", this.sharedVar.getValue());
+        try {
+            for (int iteration = MIN; iteration < MAX; iteration++) {
+                synchronized (this.sharedVar) {
+                    System.out.printf("GET: %d\n", this.sharedVar.getValue());
+                }
+            }
+        } catch (InterruptedException exceptionMessage) {
+            Thread.currentThread().interrupt();
         }
     }
 }
